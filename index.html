@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ลิ้มรสไทย — แนะนำอาหารไทย</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Taviraj:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #fbf3e4;
+    --cream-dark: #f1e2c3;
+    --gold: #c9a24d;
+    --gold-deep: #9c7a2e;
+    --teal: #0f6e66;
+    --teal-deep: #0a4b45;
+    --text: #3b2b1a;
+    --maroon: #8b3a3a;
+    --card-shadow: 0 6px 18px rgba(59, 43, 26, 0.15);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--cream);
+    color: var(--text);
+    font-family: 'Mitr', sans-serif;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3 { font-family: 'Taviraj', serif; margin: 0; }
+
+  .thai-divider {
+    height: 14px;
+    background:
+      linear-gradient(135deg, var(--gold) 25%, transparent 25%) 0 0 / 16px 16px,
+      linear-gradient(225deg, var(--gold) 25%, transparent 25%) 0 0 / 16px 16px;
+    background-color: var(--teal-deep);
+  }
+
+  header.hero {
+    background: linear-gradient(180deg, var(--teal-deep), var(--teal));
+    color: var(--cream);
+    text-align: center;
+    padding: 48px 20px 40px;
+  }
+
+  header.hero h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: var(--gold);
+    letter-spacing: 1px;
+  }
+
+  header.hero p.subtitle {
+    margin: 10px auto 28px;
+    max-width: 520px;
+    color: var(--cream-dark);
+    font-size: 1rem;
+  }
+
+  #spinBtn {
+    font-family: 'Mitr', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--teal-deep);
+    background: var(--gold);
+    border: none;
+    border-radius: 999px;
+    padding: 16px 36px;
+    cursor: pointer;
+    box-shadow: 0 6px 0 var(--gold-deep);
+    transition: transform 0.1s ease;
+  }
+  #spinBtn:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--gold-deep); }
+  #spinBtn:disabled { opacity: 0.7; cursor: default; }
+
+  .reel {
+    margin: 28px auto 0;
+    max-width: 320px;
+    background: var(--cream);
+    border: 3px solid var(--gold);
+    border-radius: 18px;
+    padding: 22px 16px;
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+  }
+  .reel.hidden { display: none; }
+  .reel-track { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .reel-emoji { font-size: 2.6rem; }
+  .reel-name { font-size: 1.2rem; font-weight: 600; color: var(--text); }
+  .reel-caption { color: var(--gold-deep); font-size: 0.85rem; margin-top: 4px; }
+
+  #resultCard.hidden { display: none; }
+  #resultCard { margin: 28px auto 0; max-width: 360px; }
+
+  .search-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 22px 16px 0;
+    background: var(--cream-dark);
+  }
+
+  #searchInput {
+    width: 100%;
+    max-width: 420px;
+    font-family: 'Mitr', sans-serif;
+    font-size: 0.95rem;
+    padding: 10px 18px;
+    border: 2px solid var(--gold);
+    border-radius: 999px;
+    outline: none;
+    background: #fff;
+    color: var(--text);
+  }
+  #searchInput:focus { border-color: var(--teal); }
+  #searchInput::placeholder { color: #9a8a70; }
+
+  nav.tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 22px 16px;
+    background: var(--cream-dark);
+  }
+
+  .tab {
+    font-family: 'Mitr', sans-serif;
+    font-size: 0.95rem;
+    background: var(--cream);
+    border: 2px solid var(--gold);
+    color: var(--teal-deep);
+    border-radius: 999px;
+    padding: 8px 18px;
+    cursor: pointer;
+  }
+  .tab.active { background: var(--teal); border-color: var(--teal-deep); color: var(--cream); }
+
+  .spice-filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 16px 22px;
+    background: var(--cream-dark);
+  }
+
+  .spice-chip {
+    font-family: 'Mitr', sans-serif;
+    font-size: 0.82rem;
+    background: var(--cream);
+    border: 1.5px solid var(--gold);
+    color: var(--teal-deep);
+    border-radius: 999px;
+    padding: 6px 14px;
+    cursor: pointer;
+  }
+  .spice-chip.active { background: var(--maroon); border-color: var(--maroon); color: var(--cream); }
+
+  main { max-width: 1080px; margin: 0 auto; padding: 20px 20px 60px; }
+
+  .category-section { margin-bottom: 36px; }
+  .category-section h2 {
+    color: var(--maroon);
+    border-bottom: 2px solid var(--gold);
+    display: inline-block;
+    padding-bottom: 4px;
+    margin-bottom: 16px;
+    font-size: 1.4rem;
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 18px;
+  }
+
+  .dish-card {
+    background: #fff;
+    border: 1px solid var(--cream-dark);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .dish-photo {
+    height: 140px;
+    background: var(--cream-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .dish-photo img { width: 100%; height: 100%; object-fit: cover; }
+  .dish-emoji { font-size: 3rem; }
+
+  .fav-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(255,255,255,0.85);
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .dish-body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+  .dish-name { font-family: 'Taviraj', serif; font-size: 1.15rem; font-weight: 600; }
+  .dish-desc { font-size: 0.88rem; color: #5a4a35; flex: 1; }
+  .dish-spice { font-size: 0.95rem; }
+  .chili-empty { opacity: 0.2; }
+  .dish-category-tag {
+    font-size: 0.75rem;
+    color: var(--teal-deep);
+    background: var(--cream-dark);
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    align-self: flex-start;
+  }
+
+  .result-card .dish-photo { height: 180px; }
+
+  .empty-state {
+    text-align: center;
+    color: var(--gold-deep);
+    padding: 40px 20px;
+    font-size: 1rem;
+  }
+
+  footer {
+    text-align: center;
+    padding: 24px;
+    color: var(--cream-dark);
+    background: var(--teal-deep);
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 480px) {
+    #spinBtn { padding: 14px 28px; font-size: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>ลิ้มรสไทย</h1>
+  <p class="subtitle">รวมเมนูอาหารไทย 30 รายการ ครบทุกรส ต้ม ผัด แกง ทอด กดปุ่มด้านล่างเพื่อสุ่มเมนูเด็ดประจำมื้อนี้</p>
+  <button id="spinBtn">🎲 สุ่มเมนูอาหารไทยวันนี้</button>
+
+  <div class="reel hidden" id="reel">
+    <div class="reel-track" id="reelTrack">
+      <span class="reel-emoji">🍲</span>
+      <span class="reel-name">กำลังสุ่ม...</span>
+    </div>
+    <div class="reel-caption">กำลังลุ้นเมนูเด็ด...</div>
+  </div>
+
+  <div id="resultCard" class="hidden"></div>
+</header>
+
+<div class="thai-divider"></div>
+
+<div class="search-wrap">
+  <input type="text" id="searchInput" placeholder="🔍 ค้นหาเมนู เช่น ผัดไทย, กุ้ง, ทอด..." autocomplete="off">
+</div>
+
+<nav class="tabs" id="tabs">
+  <button class="tab active" data-filter="all">ทั้งหมด</button>
+  <button class="tab" data-filter="ต้ม">ต้ม</button>
+  <button class="tab" data-filter="ผัด">ผัด</button>
+  <button class="tab" data-filter="แกง">แกง</button>
+  <button class="tab" data-filter="ทอด">ทอด</button>
+  <button class="tab" data-filter="favorites">❤ รายการโปรดของฉัน</button>
+</nav>
+
+<div class="spice-filters" id="spiceFilters">
+  <button class="spice-chip active" data-spice="all">ทุกระดับความเผ็ด</button>
+  <button class="spice-chip" data-spice="1">ไม่เผ็ด</button>
+  <button class="spice-chip" data-spice="2">เผ็ดน้อย</button>
+  <button class="spice-chip" data-spice="3">เผ็ดกลาง</button>
+  <button class="spice-chip" data-spice="45">เผ็ดมาก</button>
+</div>
+
+<main>
+  <section id="catalog"></section>
+</main>
+
+<footer>ลิ้มรสไทย — แนะนำอาหารไทยด้วยใจ 🇹🇭</footer>
+
+<script>
+const DISHES = [
+  { id: "tom-yum-goong", name: "ต้มยำกุ้ง", category: "ต้ม", description: "ซุปเปรี้ยวเผ็ดกลิ่นสมุนไพรจัดจ้าน ใส่กุ้งแม่น้ำตัวโต", spiceLevel: 4, photoUrl: "https://upload.wikimedia.org/wikipedia/commons/e/e8/Tom_yam_kung_maenam.jpg", emoji: "🍲" },
+  { id: "tom-kha-gai", name: "ต้มข่าไก่", category: "ต้ม", description: "ซุปกะทิหอมข่าตะไคร้ รสเปรี้ยวเผ็ดกลมกล่อม", spiceLevel: 2, photoUrl: "https://upload.wikimedia.org/wikipedia/commons/e/e5/Flickr_preppybyday_4711943668--Tom_kha_gai.jpg", emoji: "🥥" },
+  { id: "tom-jued-tofu-moo-sap", name: "ต้มจืดเต้าหู้หมูสับ", category: "ต้ม", description: "ซุปรสอ่อนละมุน เต้าหู้นุ่มและหมูสับ เหมาะคู่ข้าวสวย", spiceLevel: 1, photoUrl: null, emoji: "🥣" },
+  { id: "tom-saep-kraduk-moo", name: "ต้มแซ่บกระดูกหมู", category: "ต้ม", description: "ซุปรสจัดเปรี้ยวเผ็ดแซ่บ กระดูกหมูนุ่มเข้าเนื้อ", spiceLevel: 4, photoUrl: "image/tom-saep-kraduk-moo.jpg", emoji: "🍖" },
+  { id: "tom-som-pla", name: "ต้มส้มปลา", category: "ต้ม", description: "ซุปรสเปรี้ยวหวานจากปลา ใส่ผักรวมสดชื่น", spiceLevel: 2, photoUrl: null, emoji: "🐟" },
+  { id: "tom-yum-gai", name: "ต้มยำไก่", category: "ต้ม", description: "ต้มยำสูตรเข้มข้น เปลี่ยนกุ้งเป็นไก่ชิ้นนุ่ม", spiceLevel: 3, photoUrl: null, emoji: "🍗" },
+  { id: "tom-khlong-pla-grob", name: "ต้มโคล้งปลากรอบ", category: "ต้ม", description: "ซุปรสจัดใต้แท้ ปลากรอบเคี้ยวมันตัดรสเปรี้ยวเผ็ด", spiceLevel: 3, photoUrl: null, emoji: "🐡" },
+  { id: "tom-yum-talay", name: "ต้มยำทะเล", category: "ต้ม", description: "รวมของทะเลสดๆ ในน้ำต้มยำรสจัดจ้าน", spiceLevel: 4, photoUrl: null, emoji: "🦐" },
+
+  { id: "pad-thai", name: "ผัดไทย", category: "ผัด", description: "เส้นจันท์ผัดรสเปรี้ยวหวานเค็ม กลิ่นหอมกุ้งแห้งถั่วลิสง", spiceLevel: 1, photoUrl: "https://upload.wikimedia.org/wikipedia/commons/3/39/Phat_Thai_kung_Chang_Khien_street_stall.jpg", emoji: "🍜" },
+  { id: "pad-kra-pao", name: "ผัดกะเพรา", category: "ผัด", description: "ผัดเผ็ดใบกะเพราหอมฉุน คู่ไข่ดาวและข้าวสวยร้อนๆ", spiceLevel: 3, photoUrl: "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ae/Basil_fried_crispy_pork_with_rice_-_Chiang_Mai_-_2017-07-11_%28002%29.jpg/330px-Basil_fried_crispy_pork_with_rice_-_Chiang_Mai_-_2017-07-11_%28002%29.jpg", emoji: "🌿" },
+  { id: "pad-see-ew", name: "ผัดซีอิ๊ว", category: "ผัด", description: "เส้นใหญ่ผัดซีอิ๊วดำ หอมกลิ่นไหม้นิดๆ กับคะน้ากรอบ", spiceLevel: 1, photoUrl: "https://upload.wikimedia.org/wikipedia/commons/a/ab/Pad_see_ew.jpg", emoji: "🍝" },
+  { id: "pad-pak-boong-fai-daeng", name: "ผัดผักบุ้งไฟแดง", category: "ผัด", description: "ผักบุ้งผัดไฟแรงกรอบเด้ง รสเผ็ดเค็มกลมกล่อม", spiceLevel: 2, photoUrl: null, emoji: "🥬" },
+  { id: "pad-prik-gaeng", name: "ผัดพริกแกง", category: "ผัด", description: "ผัดเข้มข้นด้วยพริกแกงใต้ หอมฉุนถึงเครื่อง", spiceLevel: 4, photoUrl: null, emoji: "🌶️" },
+  { id: "pad-khi-mao", name: "ผัดขี้เมา", category: "ผัด", description: "ผัดรสจัดใส่ใบกะเพราแขก พริกสด เผ็ดร้อนถึงใจ", spiceLevel: 4, photoUrl: "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/Sen_yai_phat_khi_mao.jpg/330px-Sen_yai_phat_khi_mao.jpg", emoji: "🔥" },
+  { id: "pad-mee-korat", name: "ผัดหมี่โคราช", category: "ผัด", description: "เส้นหมี่โคราชผัดรสเปรี้ยวหวาน สูตรดั้งเดิมอีสาน", spiceLevel: 1, photoUrl: null, emoji: "🍜" },
+  { id: "pad-prik-khing", name: "ผัดพริกขิง", category: "ผัด", description: "ผัดแห้งรสเผ็ดเค็มหวาน ใส่ถั่วฝักยาวและหมูกรอบ", spiceLevel: 3, photoUrl: null, emoji: "🥢" },
+
+  { id: "gaeng-keow-wan-gai", name: "แกงเขียวหวานไก่", category: "แกง", description: "แกงกะทิเขียวหอมใบโหระพา เผ็ดหวานกลมกล่อม", spiceLevel: 3, photoUrl: "https://upload.wikimedia.org/wikipedia/commons/e/e5/Thai_green_chicken_curry_and_roti.jpg", emoji: "🍛" },
+  { id: "massaman-gai", name: "แกงมัสมั่นไก่", category: "แกง", description: "แกงกะทิหอมเครื่องเทศ รสหวานมันไม่เผ็ดจัด", spiceLevel: 1, photoUrl: "https://upload.wikimedia.org/wikipedia/commons/b/b5/Kaeng_matsaman_kai.JPG", emoji: "🥘" },
+  { id: "gaeng-ped-ped-yang", name: "แกงเผ็ดเป็ดย่าง", category: "แกง", description: "แกงเผ็ดกะทิใส่เป็ดย่างและมะเขือเทศลูกเล็ก", spiceLevel: 3, photoUrl: null, emoji: "🦆" },
+  { id: "gaeng-som-pak-ruam", name: "แกงส้มผักรวม", category: "แกง", description: "แกงรสเปรี้ยวเผ็ดจัดจ้าน ไม่ใส่กะทิ ผักรวมสดชื่น", spiceLevel: 3, photoUrl: "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/Kaeng_som-marum63.JPG/330px-Kaeng_som-marum63.JPG", emoji: "🥦" },
+  { id: "gaeng-leuang-pla", name: "แกงเหลืองปลา", category: "แกง", description: "แกงใต้รสเปรี้ยวเผ็ดจัด สีเหลืองจากขมิ้นสด", spiceLevel: 4, photoUrl: null, emoji: "🐠" },
+  { id: "gaeng-pa-moo", name: "แกงป่าหมู", category: "แกง", description: "แกงไม่ใส่กะทิ รสจัดเผ็ดร้อน ใส่หมูและผักหลากชนิด", spiceLevel: 4, photoUrl: "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c1/Kaeng_phak_wan.JPG/330px-Kaeng_phak_wan.JPG", emoji: "🌶️" },
+  { id: "gaeng-tai-pla", name: "แกงไตปลา", category: "แกง", description: "แกงใต้แท้กลิ่นเข้มข้น รสจัดจ้านถึงเครื่อง", spiceLevel: 5, photoUrl: null, emoji: "🍲" },
+
+  { id: "gai-tod-hatyai", name: "ไก่ทอดหาดใหญ่", category: "ทอด", description: "ไก่ทอดกรอบนอกนุ่มใน หอมเครื่องเทศสูตรใต้", spiceLevel: 1, photoUrl: "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/Fried-Chicken-Set.jpg/330px-Fried-Chicken-Set.jpg", emoji: "🍗" },
+  { id: "pla-tod-nam-pla", name: "ปลาทอดน้ำปลา", category: "ทอด", description: "ปลาทอดกรอบราดน้ำปลาหวานเผ็ด หอมกระเทียมเจียว", spiceLevel: 2, photoUrl: null, emoji: "🐟" },
+  { id: "moo-tod-kratiem", name: "หมูทอดกระเทียม", category: "ทอด", description: "หมูทอดหอมกระเทียมพริกไทย กรอบนอกฉ่ำใน", spiceLevel: 1, photoUrl: null, emoji: "🥩" },
+  { id: "kluay-tod", name: "กล้วยทอด", category: "ทอด", description: "กล้วยชุบแป้งทอดกรอบหอมหวาน ของว่างยอดนิยม", spiceLevel: 1, photoUrl: "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9f/Banana_Fritters_and_tea.jpg/330px-Banana_Fritters_and_tea.jpg", emoji: "🍌" },
+  { id: "popia-tod", name: "ปอเปี๊ยะทอด", category: "ทอด", description: "แป้งห่อไส้ผักวุ้นเส้นทอดกรอบ จิ้มคู่น้ำจิ้มบ๊วย", spiceLevel: 1, photoUrl: "https://upload.wikimedia.org/wikipedia/commons/1/1e/Spring_Rolls_%283357696061%29.jpg", emoji: "🥟" },
+  { id: "tod-mun-pla", name: "ทอดมันปลา", category: "ทอด", description: "ทอดมันเนื้อเหนียวหนึบ หอมพริกแกงและถั่วฝักยาว", spiceLevel: 2, photoUrl: null, emoji: "🧆" },
+  { id: "tao-hu-tod", name: "เต้าหู้ทอด", category: "ทอด", description: "เต้าหู้ทอดกรอบนอกนุ่มใน จิ้มน้ำจิ้มถั่วรสเด็ด", spiceLevel: 1, photoUrl: "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/71/Indonesia_Tahu_goreng.JPG/330px-Indonesia_Tahu_goreng.JPG", emoji: "🧈" }
+];
+
+const FAV_KEY = "thaiFoodFavorites";
+const CATEGORIES = ["ต้ม", "ผัด", "แกง", "ทอด"];
+
+function getFavorites() {
+  try { return JSON.parse(localStorage.getItem(FAV_KEY)) || []; }
+  catch { return []; }
+}
+
+function toggleFavorite(id) {
+  const favs = getFavorites();
+  const idx = favs.indexOf(id);
+  if (idx === -1) favs.push(id); else favs.splice(idx, 1);
+  try { localStorage.setItem(FAV_KEY, JSON.stringify(favs)); } catch {}
+  renderCatalog(currentFilter);
+  if (currentResultDish) renderResult(currentResultDish, false);
+}
+
+function spiceIcons(level) {
+  return `<span title="ระดับความเผ็ด ${level}/5">${"🌶️".repeat(level)}<span class="chili-empty">${"🌶️".repeat(5 - level)}</span></span>`;
+}
+
+function dishCardHTML(dish) {
+  const favs = getFavorites();
+  const isFav = favs.includes(dish.id);
+  const photoInner = dish.photoUrl
+    ? `<img src="${dish.photoUrl}" alt="${dish.name}" loading="lazy" onerror="this.remove();document.getElementById('emoji-${dish.id}').style.display='flex';">`
+    : "";
+  return `
+    <div class="dish-card" data-id="${dish.id}">
+      <div class="dish-photo">
+        ${photoInner}
+        <div class="dish-emoji" id="emoji-${dish.id}" style="${dish.photoUrl ? "display:none" : "display:flex"}">${dish.emoji}</div>
+        <button class="fav-btn" data-id="${dish.id}" aria-label="เพิ่มในรายการโปรด">${isFav ? "❤" : "🤍"}</button>
+      </div>
+      <div class="dish-body">
+        <span class="dish-category-tag">${dish.category}</span>
+        <div class="dish-name">${dish.name}</div>
+        <div class="dish-desc">${dish.description}</div>
+        <div class="dish-spice">${spiceIcons(dish.spiceLevel)}</div>
+      </div>
+    </div>`;
+}
+
+let currentFilter = "all";
+let currentSearch = "";
+let currentSpice = "all";
+let currentResultDish = null;
+
+function escapeHtml(str) {
+  return str.replace(/[&<>"']/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
+}
+
+function matchesSearch(dish) {
+  if (!currentSearch) return true;
+  return dish.name.toLowerCase().includes(currentSearch)
+    || dish.description.toLowerCase().includes(currentSearch)
+    || dish.category.toLowerCase().includes(currentSearch);
+}
+
+function matchesSpice(dish) {
+  if (currentSpice === "all") return true;
+  if (currentSpice === "45") return dish.spiceLevel >= 4;
+  return dish.spiceLevel === Number(currentSpice);
+}
+
+function noMatchMessage(prefix) {
+  return currentSearch
+    ? `${prefix}ที่ตรงกับคำค้นหา "${escapeHtml(currentSearch)}"`
+    : `${prefix}ที่ตรงกับเงื่อนไขที่เลือก`;
+}
+
+function renderCatalog(filter) {
+  currentFilter = filter;
+  const container = document.getElementById("catalog");
+  container.innerHTML = "";
+
+  if (filter === "favorites") {
+    const favs = getFavorites();
+    const favDishes = DISHES.filter(d => favs.includes(d.id) && matchesSearch(d) && matchesSpice(d));
+    if (favDishes.length === 0) {
+      const msg = favs.length === 0
+        ? "ยังไม่มีเมนูโปรด กดหัวใจ 🤍 ที่เมนูที่ชอบเพื่อบันทึกไว้ที่นี่"
+        : noMatchMessage("ไม่พบเมนูโปรด");
+      container.innerHTML = `<div class="empty-state">${msg}</div>`;
+      return;
+    }
+    const section = document.createElement("section");
+    section.className = "category-section";
+    section.innerHTML = `<h2>❤ รายการโปรดของฉัน</h2><div class="card-grid">${favDishes.map(dishCardHTML).join("")}</div>`;
+    container.appendChild(section);
+    return;
+  }
+
+  const cats = filter === "all" ? CATEGORIES : [filter];
+  let hasResults = false;
+  cats.forEach(cat => {
+    const dishes = DISHES.filter(d => d.category === cat && matchesSearch(d) && matchesSpice(d));
+    if (dishes.length === 0) return;
+    hasResults = true;
+    const section = document.createElement("section");
+    section.className = "category-section";
+    section.innerHTML = `<h2>${cat}</h2><div class="card-grid">${dishes.map(dishCardHTML).join("")}</div>`;
+    container.appendChild(section);
+  });
+
+  if (!hasResults) {
+    container.innerHTML = `<div class="empty-state">${noMatchMessage("ไม่พบเมนู")}</div>`;
+  }
+}
+
+function renderResult(dish, animateIn) {
+  currentResultDish = dish;
+  const card = document.getElementById("resultCard");
+  card.className = "dish-card result-card";
+  card.innerHTML = dishCardHTML(dish);
+  if (animateIn) card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+document.getElementById("searchInput").addEventListener("input", e => {
+  currentSearch = e.target.value.trim().toLowerCase();
+  renderCatalog(currentFilter);
+});
+
+document.getElementById("spiceFilters").addEventListener("click", e => {
+  const btn = e.target.closest(".spice-chip");
+  if (!btn) return;
+  document.querySelectorAll(".spice-chip").forEach(c => c.classList.remove("active"));
+  btn.classList.add("active");
+  currentSpice = btn.dataset.spice;
+  renderCatalog(currentFilter);
+});
+
+document.getElementById("tabs").addEventListener("click", e => {
+  const btn = e.target.closest(".tab");
+  if (!btn) return;
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  btn.classList.add("active");
+  renderCatalog(btn.dataset.filter);
+});
+
+document.body.addEventListener("click", e => {
+  const btn = e.target.closest(".fav-btn");
+  if (!btn) return;
+  toggleFavorite(btn.dataset.id);
+});
+
+const spinBtn = document.getElementById("spinBtn");
+const reel = document.getElementById("reel");
+const reelTrack = document.getElementById("reelTrack");
+
+spinBtn.addEventListener("click", () => {
+  spinBtn.disabled = true;
+  document.getElementById("resultCard").classList.add("hidden");
+  reel.classList.remove("hidden");
+
+  const finalDish = DISHES[Math.floor(Math.random() * DISHES.length)];
+  const intervalMs = 80;
+  const totalDuration = 2000;
+  const maxTicks = Math.round(totalDuration / intervalMs);
+  let ticks = 0;
+
+  const spin = setInterval(() => {
+    const randomDish = DISHES[Math.floor(Math.random() * DISHES.length)];
+    reelTrack.innerHTML = `<span class="reel-emoji">${randomDish.emoji}</span><span class="reel-name">${randomDish.name}</span>`;
+    ticks++;
+    if (ticks >= maxTicks) {
+      clearInterval(spin);
+      reelTrack.innerHTML = `<span class="reel-emoji">${finalDish.emoji}</span><span class="reel-name">${finalDish.name}</span>`;
+      setTimeout(() => {
+        reel.classList.add("hidden");
+        document.getElementById("resultCard").classList.remove("hidden");
+        renderResult(finalDish, true);
+        spinBtn.disabled = false;
+      }, 500);
+    }
+  }, intervalMs);
+});
+
+renderCatalog("all");
+</script>
+</body>
+</html>
