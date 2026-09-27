@@ -6,183 +6,227 @@
 <title>ลิ้มรสไทย — แนะนำอาหารไทย</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Taviraj:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500;600;700&family=Taviraj:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --cream: #fbf3e4;
-    --cream-dark: #f1e2c3;
-    --gold: #c9a24d;
-    --gold-deep: #9c7a2e;
-    --teal: #0f6e66;
-    --teal-deep: #0a4b45;
-    --text: #3b2b1a;
-    --maroon: #8b3a3a;
-    --card-shadow: 0 6px 18px rgba(59, 43, 26, 0.15);
+    --color-deep-forest: #00473c;
+    --color-lime-glow: #e6ff55;
+    --color-sage-mist: #d8e5d6;
+    --color-warm-sand: #e8dcc6;
+    --color-cream-canvas: #f4f3e7;
+    --color-forest-shadow: #0e150e;
+    --color-warm-gray: #8c8c82;
+    --color-slate-gray: #555555;
+    --font-display: 'Mitr', sans-serif;
+    --font-accent: 'Taviraj', serif;
+    --font-text: 'Mitr', sans-serif;
+    --shadow-xl: rgba(14, 21, 14, 0.4) 3px 3px 32px -10px;
+    --radius-buttons: 9999px;
+    --radius-images: 20px;
   }
 
   * { box-sizing: border-box; }
 
   body {
     margin: 0;
-    background: var(--cream);
-    color: var(--text);
-    font-family: 'Mitr', sans-serif;
-    line-height: 1.6;
+    background: var(--color-cream-canvas);
+    color: var(--color-forest-shadow);
+    font-family: var(--font-text);
+    line-height: 1.5;
   }
 
-  h1, h2, h3 { font-family: 'Taviraj', serif; margin: 0; }
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 400; margin: 0; }
 
-  .thai-divider {
-    height: 14px;
-    background:
-      linear-gradient(135deg, var(--gold) 25%, transparent 25%) 0 0 / 16px 16px,
-      linear-gradient(225deg, var(--gold) 25%, transparent 25%) 0 0 / 16px 16px;
-    background-color: var(--teal-deep);
+  .site-nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 24px 0;
+  }
+  .brand {
+    font-family: var(--font-text);
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: 0.02em;
+    color: var(--color-deep-forest);
   }
 
   header.hero {
-    background: linear-gradient(180deg, var(--teal-deep), var(--teal));
-    color: var(--cream);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 24px 56px;
     text-align: center;
-    padding: 48px 20px 40px;
+  }
+
+  .eyebrow {
+    display: block;
+    font-family: var(--font-text);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    color: var(--color-deep-forest);
+    margin-bottom: 16px;
   }
 
   header.hero h1 {
-    font-size: clamp(2rem, 5vw, 3rem);
-    color: var(--gold);
-    letter-spacing: 1px;
+    font-size: clamp(2.4rem, 8vw, 4.5rem);
+    line-height: 0.9;
+    color: var(--color-forest-shadow);
   }
 
   header.hero p.subtitle {
-    margin: 10px auto 28px;
-    max-width: 520px;
-    color: var(--cream-dark);
-    font-size: 1rem;
+    font-family: var(--font-accent);
+    font-weight: 200;
+    margin: 24px auto 32px;
+    max-width: 560px;
+    color: var(--color-forest-shadow);
+    font-size: clamp(1.1rem, 3vw, 1.4rem);
+    letter-spacing: -0.01em;
   }
 
-  #spinBtn {
-    font-family: 'Mitr', sans-serif;
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: var(--teal-deep);
-    background: var(--gold);
+  .btn-cta {
+    display: inline-block;
+    font-family: var(--font-text);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.017em;
+    color: var(--color-forest-shadow);
+    background: var(--color-lime-glow);
     border: none;
-    border-radius: 999px;
-    padding: 16px 36px;
+    border-radius: var(--radius-buttons);
+    padding: 16px 32px;
     cursor: pointer;
-    box-shadow: 0 6px 0 var(--gold-deep);
-    transition: transform 0.1s ease;
+    box-shadow: var(--shadow-xl);
+    transition: transform 0.15s ease;
   }
-  #spinBtn:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--gold-deep); }
-  #spinBtn:disabled { opacity: 0.7; cursor: default; }
+  .btn-cta:active { transform: translateY(2px); }
+  .btn-cta:disabled { opacity: 0.6; cursor: default; }
 
   .reel {
-    margin: 28px auto 0;
+    margin: 32px auto 0;
     max-width: 320px;
-    background: var(--cream);
-    border: 3px solid var(--gold);
-    border-radius: 18px;
-    padding: 22px 16px;
-    box-shadow: var(--card-shadow);
+    background: var(--color-cream-canvas);
+    border: 2px solid var(--color-deep-forest);
+    border-radius: 24px;
+    padding: 24px 16px;
+    box-shadow: var(--shadow-xl);
     overflow: hidden;
   }
   .reel.hidden { display: none; }
   .reel-track { display: flex; flex-direction: column; align-items: center; gap: 6px; }
   .reel-emoji { font-size: 2.6rem; }
-  .reel-name { font-size: 1.2rem; font-weight: 600; color: var(--text); }
-  .reel-caption { color: var(--gold-deep); font-size: 0.85rem; margin-top: 4px; }
+  .reel-name { font-size: 1.2rem; font-weight: 700; color: var(--color-forest-shadow); }
+  .reel-caption { color: var(--color-deep-forest); font-size: 14px; margin-top: 8px; font-weight: 700; letter-spacing: 0.02em; }
 
   #resultCard.hidden { display: none; }
-  #resultCard { margin: 28px auto 0; max-width: 360px; }
+  #resultCard { margin: 32px auto 0; max-width: 360px; }
 
-  .search-wrap {
-    display: flex;
-    justify-content: center;
-    padding: 22px 16px 0;
-    background: var(--cream-dark);
-  }
+  .utility-band { background: var(--color-sage-mist); padding: 32px 24px 36px; }
+
+  .search-wrap { display: flex; justify-content: center; max-width: 1200px; margin: 0 auto; }
 
   #searchInput {
     width: 100%;
     max-width: 420px;
-    font-family: 'Mitr', sans-serif;
-    font-size: 0.95rem;
-    padding: 10px 18px;
-    border: 2px solid var(--gold);
-    border-radius: 999px;
+    font-family: var(--font-text);
+    font-size: 16px;
+    padding: 12px 20px;
+    border: 2px solid var(--color-warm-gray);
+    border-radius: var(--radius-buttons);
     outline: none;
-    background: #fff;
-    color: var(--text);
+    background: var(--color-cream-canvas);
+    color: var(--color-forest-shadow);
   }
-  #searchInput:focus { border-color: var(--teal); }
-  #searchInput::placeholder { color: #9a8a70; }
+  #searchInput:focus { border-color: var(--color-deep-forest); }
+  #searchInput::placeholder { color: var(--color-slate-gray); }
 
   nav.tabs {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     justify-content: center;
-    gap: 10px;
-    padding: 22px 16px;
-    background: var(--cream-dark);
+    gap: 28px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 28px 0 8px;
   }
 
   .tab {
-    font-family: 'Mitr', sans-serif;
-    font-size: 0.95rem;
-    background: var(--cream);
-    border: 2px solid var(--gold);
-    color: var(--teal-deep);
-    border-radius: 999px;
-    padding: 8px 18px;
+    position: relative;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(20px, 3.4vw, 28px);
+    background: none;
+    border: none;
+    color: var(--color-forest-shadow);
+    padding: 0 0 14px;
     cursor: pointer;
   }
-  .tab.active { background: var(--teal); border-color: var(--teal-deep); color: var(--cream); }
+  .tab.active::after {
+    content: "";
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-deep-forest);
+  }
+  .tab.tab-fav {
+    font-family: var(--font-text);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    border: 2px solid var(--color-deep-forest);
+    border-radius: var(--radius-buttons);
+    padding: 10px 20px;
+  }
+  .tab.tab-fav.active { background: var(--color-deep-forest); color: var(--color-cream-canvas); }
+  .tab.tab-fav.active::after { display: none; }
 
   .spice-filters {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 8px;
-    padding: 0 16px 22px;
-    background: var(--cream-dark);
+    gap: 10px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 12px 0 0;
   }
 
   .spice-chip {
-    font-family: 'Mitr', sans-serif;
-    font-size: 0.82rem;
-    background: var(--cream);
-    border: 1.5px solid var(--gold);
-    color: var(--teal-deep);
-    border-radius: 999px;
-    padding: 6px 14px;
+    font-family: var(--font-text);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    background: transparent;
+    border: 2px solid var(--color-warm-gray);
+    color: var(--color-forest-shadow);
+    border-radius: var(--radius-buttons);
+    padding: 8px 16px;
     cursor: pointer;
   }
-  .spice-chip.active { background: var(--maroon); border-color: var(--maroon); color: var(--cream); }
+  .spice-chip.active { background: var(--color-deep-forest); border-color: var(--color-deep-forest); color: var(--color-cream-canvas); }
 
-  main { max-width: 1080px; margin: 0 auto; padding: 20px 20px 60px; }
+  main { max-width: 1200px; margin: 0 auto; padding: 48px 24px 80px; }
 
-  .category-section { margin-bottom: 36px; }
+  .category-section { margin-bottom: 48px; }
   .category-section h2 {
-    color: var(--maroon);
-    border-bottom: 2px solid var(--gold);
-    display: inline-block;
-    padding-bottom: 4px;
-    margin-bottom: 16px;
-    font-size: 1.4rem;
+    color: var(--color-deep-forest);
+    font-size: clamp(28px, 4vw, 40px);
+    line-height: 0.9;
+    margin-bottom: 24px;
   }
 
   .card-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 18px;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 32px;
   }
 
   .dish-card {
-    background: #fff;
-    border: 1px solid var(--cream-dark);
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: var(--card-shadow);
+    background: none;
+    border: none;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -190,76 +234,92 @@
   }
 
   .dish-photo {
-    height: 140px;
-    background: var(--cream-dark);
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radius-images);
+    background: var(--color-sage-mist);
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
+    overflow: hidden;
   }
   .dish-photo img { width: 100%; height: 100%; object-fit: cover; }
   .dish-emoji { font-size: 3rem; }
 
   .fav-btn {
     position: absolute;
-    top: 8px;
-    right: 8px;
-    background: rgba(255,255,255,0.85);
+    top: 12px;
+    right: 12px;
+    background: rgba(244, 243, 231, 0.85);
     border: none;
     border-radius: 50%;
     width: 36px;
     height: 36px;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  .dish-body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
-  .dish-name { font-family: 'Taviraj', serif; font-size: 1.15rem; font-weight: 600; }
-  .dish-desc { font-size: 0.88rem; color: #5a4a35; flex: 1; }
+  .dish-body { padding: 20px 4px 0; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .dish-name { font-family: var(--font-text); font-size: 20px; font-weight: 700; }
+  .dish-desc { font-size: 16px; line-height: 1.25; color: var(--color-forest-shadow); flex: 1; }
   .dish-spice { font-size: 0.95rem; }
-  .chili-empty { opacity: 0.2; }
-  .dish-more { font-size: 0.8rem; color: var(--teal); font-weight: 500; margin-top: 2px; }
+  .chili-empty { opacity: 0.25; }
+  .dish-more {
+    font-family: var(--font-text);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--color-forest-shadow);
+    margin-top: 4px;
+  }
+  .dish-card:hover .dish-more { text-decoration: underline; }
   .dish-category-tag {
-    font-size: 0.75rem;
-    color: var(--teal-deep);
-    background: var(--cream-dark);
-    display: inline-block;
-    padding: 2px 10px;
-    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--color-deep-forest);
+    padding: 0;
     align-self: flex-start;
   }
 
-  .result-card .dish-photo { height: 180px; }
+  .result-card .dish-photo { aspect-ratio: 4 / 3; }
 
   .empty-state {
     text-align: center;
-    color: var(--gold-deep);
-    padding: 40px 20px;
-    font-size: 1rem;
+    color: var(--color-slate-gray);
+    padding: 60px 20px;
+    font-size: 16px;
   }
 
   footer {
     text-align: center;
-    padding: 24px;
-    color: var(--cream-dark);
-    background: var(--teal-deep);
-    font-size: 0.85rem;
+    padding: 32px 24px;
+    color: var(--color-cream-canvas);
+    background: var(--color-deep-forest);
+    font-family: var(--font-text);
+    font-size: 14px;
+    letter-spacing: 0.02em;
   }
 
   @media (max-width: 480px) {
-    #spinBtn { padding: 14px 28px; font-size: 1rem; }
+    .btn-cta { padding: 14px 26px; font-size: 15px; }
+    nav.tabs { gap: 18px; }
   }
 </style>
 </head>
 <body>
 
+<div class="site-nav">
+  <span class="brand">ลิ้มรสไทย</span>
+</div>
+
 <header class="hero">
+  <span class="eyebrow">อาหารไทยแท้ 30 เมนู ครบทุกรสชาติ</span>
   <h1>ลิ้มรสไทย</h1>
-  <p class="subtitle">รวมเมนูอาหารไทย 30 รายการ ครบทุกรส ต้ม ผัด แกง ทอด กดปุ่มด้านล่างเพื่อสุ่มเมนูเด็ดประจำมื้อนี้</p>
-  <button id="spinBtn">🎲 สุ่มเมนูอาหารไทยวันนี้</button>
+  <p class="subtitle">ต้ม ผัด แกง ทอด — กดปุ่มด้านล่างเพื่อสุ่มเมนูเด็ดประจำมื้อนี้</p>
+  <button id="spinBtn" class="btn-cta">สุ่มเมนูอาหารไทยวันนี้ →</button>
 
   <div class="reel hidden" id="reel">
     <div class="reel-track" id="reelTrack">
@@ -272,27 +332,27 @@
   <div id="resultCard" class="hidden"></div>
 </header>
 
-<div class="thai-divider"></div>
+<div class="utility-band">
+  <div class="search-wrap">
+    <input type="text" id="searchInput" placeholder="ค้นหาเมนู เช่น ผัดไทย, กุ้ง, ทอด..." autocomplete="off">
+  </div>
 
-<div class="search-wrap">
-  <input type="text" id="searchInput" placeholder="🔍 ค้นหาเมนู เช่น ผัดไทย, กุ้ง, ทอด..." autocomplete="off">
-</div>
+  <nav class="tabs" id="tabs">
+    <button class="tab active" data-filter="all">ทั้งหมด</button>
+    <button class="tab" data-filter="ต้ม">ต้ม</button>
+    <button class="tab" data-filter="ผัด">ผัด</button>
+    <button class="tab" data-filter="แกง">แกง</button>
+    <button class="tab" data-filter="ทอด">ทอด</button>
+    <button class="tab tab-fav" data-filter="favorites">❤ รายการโปรด</button>
+  </nav>
 
-<nav class="tabs" id="tabs">
-  <button class="tab active" data-filter="all">ทั้งหมด</button>
-  <button class="tab" data-filter="ต้ม">ต้ม</button>
-  <button class="tab" data-filter="ผัด">ผัด</button>
-  <button class="tab" data-filter="แกง">แกง</button>
-  <button class="tab" data-filter="ทอด">ทอด</button>
-  <button class="tab" data-filter="favorites">❤ รายการโปรดของฉัน</button>
-</nav>
-
-<div class="spice-filters" id="spiceFilters">
-  <button class="spice-chip active" data-spice="all">ทุกระดับความเผ็ด</button>
-  <button class="spice-chip" data-spice="1">ไม่เผ็ด</button>
-  <button class="spice-chip" data-spice="2">เผ็ดน้อย</button>
-  <button class="spice-chip" data-spice="3">เผ็ดกลาง</button>
-  <button class="spice-chip" data-spice="45">เผ็ดมาก</button>
+  <div class="spice-filters" id="spiceFilters">
+    <button class="spice-chip active" data-spice="all">ทุกระดับความเผ็ด</button>
+    <button class="spice-chip" data-spice="1">ไม่เผ็ด</button>
+    <button class="spice-chip" data-spice="2">เผ็ดน้อย</button>
+    <button class="spice-chip" data-spice="3">เผ็ดกลาง</button>
+    <button class="spice-chip" data-spice="45">เผ็ดมาก</button>
+  </div>
 </div>
 
 <main>
