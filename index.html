@@ -311,8 +311,23 @@
 </head>
 <body>
 
-<div class="site-nav">
+<div class="site-nav" style="display:flex;align-items:center;justify-content:space-between;">
   <span class="brand">ลิ้มรสไทย</span>
+  <button id="joinBtn" class="tab tab-fav" type="button">สมัครสมาชิก</button>
+</div>
+
+<div id="joinModal" style="position:fixed;inset:0;background:rgba(14,21,14,0.5);align-items:center;justify-content:center;padding:24px;z-index:10;display:none;">
+  <form id="joinForm" style="background:var(--color-cream-canvas);border-radius:var(--radius-images);padding:32px;max-width:360px;width:100%;box-shadow:var(--shadow-xl);display:flex;flex-direction:column;gap:14px;">
+    <h2 style="font-size:24px;color:var(--color-deep-forest);">สมัครสมาชิก</h2>
+    <input type="text" id="joinName" placeholder="ชื่อ" required style="font-family:var(--font-text);font-size:16px;padding:12px 20px;border:2px solid var(--color-warm-gray);border-radius:var(--radius-buttons);outline:none;">
+    <input type="email" id="joinEmail" placeholder="อีเมล" required style="font-family:var(--font-text);font-size:16px;padding:12px 20px;border:2px solid var(--color-warm-gray);border-radius:var(--radius-buttons);outline:none;">
+    <input type="tel" id="joinPhone" placeholder="เบอร์โทร (ไม่บังคับ)" style="font-family:var(--font-text);font-size:16px;padding:12px 20px;border:2px solid var(--color-warm-gray);border-radius:var(--radius-buttons);outline:none;">
+    <div id="joinMsg" style="font-size:14px;"></div>
+    <div style="display:flex;gap:10px;">
+      <button type="submit" class="btn-cta" style="flex:1;">สมัคร</button>
+      <button type="button" id="joinCancel" class="tab" style="border:2px solid var(--color-deep-forest);border-radius:var(--radius-buttons);padding:0 20px;">ยกเลิก</button>
+    </div>
+  </form>
 </div>
 
 <header class="hero">
@@ -362,7 +377,49 @@
 <footer>ลิ้มรสไทย — แนะนำอาหารไทยด้วยใจ 🇹🇭</footer>
 
 <script src="js/dishes.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+const supabaseClient = supabase.createClient(
+  "https://yydbinivnbvclbnoqcgq.supabase.co",
+  "sb_publishable_72hwlTX5Eztl04nlmxZw6A_yiEa05Zm"
+);
+
+const joinModal = document.getElementById("joinModal");
+const joinForm = document.getElementById("joinForm");
+const joinMsg = document.getElementById("joinMsg");
+
+document.getElementById("joinBtn").addEventListener("click", () => {
+  joinMsg.textContent = "";
+  joinModal.style.display = "flex";
+});
+document.getElementById("joinCancel").addEventListener("click", () => {
+  joinModal.style.display = "none";
+});
+
+joinForm.addEventListener("submit", async e => {
+  e.preventDefault();
+  const submitBtn = joinForm.querySelector("button[type=submit]");
+  submitBtn.disabled = true;
+  joinMsg.textContent = "กำลังบันทึก...";
+
+  const { error } = await supabaseClient.from("members").insert({
+    name: document.getElementById("joinName").value.trim(),
+    email: document.getElementById("joinEmail").value.trim(),
+    phone: document.getElementById("joinPhone").value.trim() || null,
+  });
+
+  submitBtn.disabled = false;
+  if (error) {
+    joinMsg.style.color = "#b00020";
+    joinMsg.textContent = error.code === "23505" ? "อีเมลนี้สมัครไปแล้ว" : "เกิดข้อผิดพลาด ลองใหม่อีกครั้ง";
+    return;
+  }
+  joinMsg.style.color = "var(--color-deep-forest)";
+  joinMsg.textContent = "สมัครสมาชิกสำเร็จ!";
+  joinForm.reset();
+  setTimeout(() => { joinModal.style.display = "none"; }, 1200);
+});
+
 const FAV_KEY = "thaiFoodFavorites";
 const CATEGORIES = ["ต้ม", "ผัด", "แกง", "ทอด"];
 
